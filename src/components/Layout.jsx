@@ -2,9 +2,8 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { useNotas } from '../context/NotasContext';
 
 const Layout = () => {
-  const { notas } = useNotas();
+  const { notas, notificacion, cerrarNotificacion } = useNotas();
 
-  // Función para determinar el estilo del enlace activo
   const obtenerEstiloEnlace = ({ isActive }) => ({
     color: isActive ? '#3498db' : '#2c3e50',
     fontWeight: isActive ? '700' : '500',
@@ -16,6 +15,17 @@ const Layout = () => {
     borderRadius: '6px',
     backgroundColor: isActive ? '#ebf5fb' : 'transparent'
   });
+
+  // Función para obtener colores de notificación
+  const getColorNotificacion = (tipo) => {
+    const colores = {
+      exito: { bg: '#d4edda', border: '#28a745', text: '#155724', icono: '✅' },
+      error: { bg: '#f8d7da', border: '#dc3545', text: '#721c24', icono: '❌' },
+      advertencia: { bg: '#fff3cd', border: '#ffc107', text: '#856404', icono: '⚠️' },
+      info: { bg: '#d1ecf1', border: '#17a2b8', text: '#0c5460', icono: 'ℹ️' }
+    };
+    return colores[tipo] || colores.info;
+  };
 
   return (
     <div style={{
@@ -42,7 +52,6 @@ const Layout = () => {
           flexWrap: 'wrap',
           gap: '15px'
         }}>
-          {/* Título de la aplicación */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -59,7 +68,6 @@ const Layout = () => {
             </h1>
           </div>
 
-          {/* Navegación */}
           <nav style={{
             display: 'flex',
             gap: '4px',
@@ -77,7 +85,6 @@ const Layout = () => {
             </NavLink>
           </nav>
 
-          {/* Contador de notas desde el contexto */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -107,6 +114,66 @@ const Layout = () => {
         </div>
       </header>
 
+      {/* Notificación Toast */}
+      {notificacion && (
+        <div style={{
+          position: 'fixed',
+          top: '80px',
+          right: '20px',
+          zIndex: 1000,
+          maxWidth: '400px',
+          width: '100%',
+          animation: 'slideInRight 0.3s ease'
+        }}>
+          <div style={{
+            padding: '16px 20px',
+            backgroundColor: getColorNotificacion(notificacion.tipo).bg,
+            borderLeft: `4px solid ${getColorNotificacion(notificacion.tipo).border}`,
+            borderRadius: '12px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              color: getColorNotificacion(notificacion.tipo).text
+            }}>
+              <span style={{ fontSize: '1.5rem' }}>
+                {getColorNotificacion(notificacion.tipo).icono}
+              </span>
+              <span style={{ fontWeight: '500' }}>
+                {notificacion.mensaje}
+              </span>
+            </div>
+            <button
+              onClick={cerrarNotificacion}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '1.2rem',
+                cursor: 'pointer',
+                color: getColorNotificacion(notificacion.tipo).text,
+                padding: '4px 8px',
+                borderRadius: '4px',
+                transition: 'background-color 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Contenido principal */}
       <main style={{
         flex: 1,
@@ -131,6 +198,22 @@ const Layout = () => {
           © 2026 MisNotas — Gestión de notas con React + Context API
         </p>
       </footer>
+
+      {/* Animaciones */}
+      <style>
+        {`
+          @keyframes slideInRight {
+            from {
+              opacity: 0;
+              transform: translateX(100px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
