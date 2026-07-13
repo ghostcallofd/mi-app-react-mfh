@@ -1,11 +1,29 @@
+import { useNavigate } from 'react-router-dom';
+import { useNotas } from '../context/NotasContext';
+import FormularioNota from '../components/FormularioNota';
+
 const NuevaNota = () => {
+  const navigate = useNavigate();
+  const { agregarNota } = useNotas();
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = (datos) => {
+    agregarNota(datos);
+    navigate('/notas');
+  };
+
+  // Función para cancelar
+  const handleCancel = () => {
+    navigate('/notas');
+  };
+
   return (
     <div>
       <div style={{
         marginBottom: '20px',
         padding: '16px 20px',
         backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
+        borderRadius: '12px',
         border: '1px solid #e9ecef'
       }}>
         <h2 style={{
@@ -13,29 +31,24 @@ const NuevaNota = () => {
           color: '#2c3e50',
           fontSize: '1.5rem'
         }}>
-          ✨ Nueva Nota
+          ✨ Crear Nueva Nota
         </h2>
+        <p style={{
+          margin: '4px 0 0 0',
+          color: '#7f8c8d',
+          fontSize: '0.95rem'
+        }}>
+          Completa los campos para agregar una nueva nota a tu colección
+        </p>
       </div>
 
-      <div style={{
-        padding: '40px 20px',
-        textAlign: 'center',
-        backgroundColor: 'white',
-        borderRadius: '12px',
-        border: '2px dashed #dee2e6',
-        color: '#95a5a6'
-      }}>
-        <div style={{ fontSize: '3rem', marginBottom: '15px' }}>📝</div>
-        <h3 style={{ color: '#2c3e50', marginBottom: '8px' }}>
-          Formulario para crear nueva nota
-        </h3>
-        <p>
-          Aquí se mostrará el formulario completo para agregar notas.
-        </p>
-        <p style={{ fontSize: '0.85rem' }}>
-          (Ejercicio 4 — Formulario para crear y editar notas)
-        </p>
-      </div>
+      <FormularioNota
+        onSubmit={handleSubmit}
+        submitText="Crear Nota"
+        cancelText="Cancelar"
+        onCancel={handleCancel}
+        isEditing={false}
+      />
     </div>
   );
 };

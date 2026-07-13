@@ -14,6 +14,7 @@ import Inicio from './pages/Inicio';
 import Notas from './pages/Notas';
 import NuevaNota from './pages/NuevaNota';
 import DetalleNota from './pages/DetalleNota';
+import EditarNota from './pages/EditarNota';
 import NoEncontrada from './pages/NoEncontrada';
 
 function App() {
@@ -28,8 +29,7 @@ function App() {
               <Route index element={<Notas />} />
               <Route path="nueva" element={<NuevaNota />} />
               <Route path=":id" element={<DetalleNota />} />
-              {/* Ruta de edición que se creará en el Ejercicio 4 */}
-              {/* <Route path=":id/editar" element={<EditarNota />} /> */}
+              <Route path=":id/editar" element={<EditarNota />} />
             </Route>
             {/* Ruta 404 */}
             <Route path="*" element={<NoEncontrada />} />
