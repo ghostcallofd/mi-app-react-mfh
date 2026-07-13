@@ -1,8 +1,8 @@
 // src/App.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-// Importación de todos los componentes anteriores
+// Importación de componentes de ejercicios anteriores
 import Perfil from './components/Perfil';
 import Clima from './components/Clima';
 import EstadoPedido from './components/EstadoPedido';
@@ -12,63 +12,89 @@ import ListaProductos from './components/ListaProductos';
 import ListaTareas from './components/ListaTareas';
 import Tarjeta from './components/Tarjeta';
 import Dashboard from './components/Dashboard';
-
-// Importación de los nuevos componentes
 import Alerta from './components/Alerta';
 import Acordeon from './components/Acordeon';
+import BotonAccion from './components/BotonAccion';
+import Modal from './components/Modal';
+import Contador from './components/Contador';
+import ListaContactos from './components/ListaContactos';
+import FormularioEvento from './components/FormularioEvento';
 
 function App() {
-  // Datos para las tarjetas
+  // Estados para el modal del ejercicio 2
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [mostrarAlertaBoton, setMostrarAlertaBoton] = useState(false);
+
+  // Datos para las tarjetas del ejercicio 8
   const tarjetasData = [
     {
       titulo: 'React Avanzado',
-      descripcion: 'Curso completo de React con hooks, context API y optimización de rendimiento.',
+      descripcion: 'Curso completo de React con hooks, context API y optimización de rendimiento. Aprende a construir aplicaciones modernas y escalables.',
       etiquetas: ['React', 'JavaScript', 'Hooks', 'Context API'],
       destacado: true
     },
     {
       titulo: 'Desarrollo Full Stack',
-      descripcion: 'Aprende a desarrollar aplicaciones web completas con Node.js, Express, MongoDB y React.',
+      descripcion: 'Aprende a desarrollar aplicaciones web completas con Node.js, Express, MongoDB y React. Proyectos prácticos incluidos.',
       etiquetas: ['Node.js', 'Express', 'MongoDB', 'React'],
       destacado: false
     },
     {
       titulo: 'UI/UX Design',
-      descripcion: 'Principios de diseño de interfaces centradas en el usuario.',
+      descripcion: 'Principios de diseño de interfaces centradas en el usuario. Prototipado, pruebas de usabilidad y herramientas de diseño.',
       etiquetas: ['Design', 'Figma', 'Prototyping', 'UX'],
       destacado: false
     },
     {
       titulo: 'DevOps Essentials',
-      descripcion: 'Fundamentos de DevOps: CI/CD, Docker, Kubernetes y monitoreo.',
+      descripcion: 'Fundamentos de DevOps: CI/CD, Docker, Kubernetes y monitoreo. Automatización de infraestructura y despliegue.',
       etiquetas: ['Docker', 'Kubernetes', 'CI/CD', 'AWS'],
       destacado: true
     }
   ];
 
+  // Datos para el ejercicio 4
   const usuarioAdmin = { nombre: 'Ana Martínez', rol: 'admin' };
   const usuarioNormal = { nombre: 'Carlos López', rol: 'usuario' };
+
+  // Funciones para el modal
+  const abrirModal = () => setModalAbierto(true);
+  const cerrarModal = () => setModalAbierto(false);
+
+  // Función para el botón de alerta
+  const mostrarAlerta = () => {
+    setMostrarAlertaBoton(true);
+    setTimeout(() => setMostrarAlertaBoton(false), 3000);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>📚 Ejercicios Prácticos de React JS</h1>
         <p className="subtitle">
-          Lista completa de todos los ejercicios desarrollados
+          Todos los ejercicios organizados en acordeones interactivos
         </p>
+        <div className="header-stats">
+          <span>📦 5 Ejercicios</span>
+          <span>•</span>
+          <span>⚛️ React + Hooks</span>
+          <span>•</span>
+          <span>🎯 15+ Componentes</span>
+        </div>
       </header>
 
       <main className="App-main">
         {/* ============================================ */}
-        {/* EJERCICIO 1 - NUEVO: Alertas */}
+        {/* EJERCICIO 1 - Componentes con Props y Children */}
         {/* ============================================ */}
-        <section className="exercise-section" id="ejercicio-nuevo1">
-          <div className="exercise-header">
-            <h2>Ejercicio 1 — Componentes con Props y Children</h2>
-            <span className="exercise-badge">Alertas</span>
-          </div>
+        <Acordeon 
+          titulo="📦 Ejercicio 1 — Componentes con Props y Children" 
+          icono="🔧"
+          color="#3498db"
+          inicialmenteExpandido={true}
+        >
           <div className="exercise-content">
-            <h4>Componente Alerta - 4 tipos diferentes:</h4>
+            <h4>🔔 Componente Alerta - 4 tipos diferentes:</h4>
             
             <Alerta tipo="exito" titulo="Operación Exitosa">
               <p>El archivo ha sido subido correctamente al servidor.</p>
@@ -80,14 +106,14 @@ function App() {
             <Alerta tipo="advertencia" titulo="Espacio de Almacenamiento">
               <p>Estás utilizando el 85% de tu espacio de almacenamiento.</p>
               <p style={{ fontSize: '0.9rem', marginTop: '4px' }}>
-                <strong>Recomendación:</strong> Libera al menos 500 MB para continuar trabajando sin interrupciones.
+                <strong>Recomendación:</strong> Libera al menos 500 MB para continuar trabajando.
               </p>
             </Alerta>
 
             <Alerta tipo="error" titulo="Error de Conexión">
               <p>No se pudo establecer conexión con el servidor.</p>
               <p style={{ fontSize: '0.9rem', marginTop: '4px' }}>
-                <strong>Solución:</strong> Verifica tu conexión a internet e intenta nuevamente en unos minutos.
+                <strong>Solución:</strong> Verifica tu conexión a internet e intenta nuevamente.
               </p>
             </Alerta>
 
@@ -97,19 +123,13 @@ function App() {
                 <strong>Versión:</strong> v2.4.1 · <strong>Tamaño:</strong> 45 MB
               </p>
             </Alerta>
-          </div>
-        </section>
 
-        {/* ============================================ */}
-        {/* EJERCICIO 1 - NUEVO: Acordeones */}
-        {/* ============================================ */}
-        <section className="exercise-section" id="ejercicio-nuevo1b">
-          <div className="exercise-header">
-            <h2>Ejercicio 1 — Componentes con Estado</h2>
-            <span className="exercise-badge">Acordeones</span>
-          </div>
-          <div className="exercise-content">
-            <h4>Componente Acordeón - 3 instancias independientes:</h4>
+            <hr style={{ margin: '30px 0' }} />
+
+            <h4>📋 Componente Acordeón - Demostración de estado independiente:</h4>
+            <p style={{ color: '#7f8c8d', marginBottom: '15px' }}>
+              Cada acordeón gestiona su propio estado de expansión de forma independiente.
+            </p>
 
             <Acordeon 
               titulo="📖 ¿Qué es React?" 
@@ -134,7 +154,6 @@ function App() {
               titulo="💡 Hooks en React" 
               icono="🎣"
               color="#764ba2"
-              inicialmenteExpandido={false}
             >
               <div>
                 <p>Los <strong>Hooks</strong> son funciones que permiten usar estado y otras características de React sin escribir clases.</p>
@@ -185,7 +204,6 @@ function App() {
               titulo="🚀 Mejores Prácticas" 
               icono="✨"
               color="#28a745"
-              inicialmenteExpandido={true}
             >
               <div>
                 <p><strong>Consejos para escribir mejor código React:</strong></p>
@@ -195,141 +213,297 @@ function App() {
                   <li>✅ Evita la mutación directa del estado</li>
                   <li>✅ Utiliza keys únicas en las listas</li>
                   <li>✅ Divide la lógica en hooks personalizados</li>
-                  <li>✅ Documenta tus componentes con PropTypes o TypeScript</li>
                 </ul>
-                <div style={{
-                  marginTop: '10px',
-                  padding: '10px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '6px',
-                  borderLeft: '4px solid #28a745'
-                }}>
-                  <strong>💡 Tip:</strong> "El código limpio es más importante que el código rápido"
-                </div>
               </div>
             </Acordeon>
           </div>
-        </section>
+        </Acordeon>
 
         {/* ============================================ */}
-        {/* EJERCICIOS ANTERIORES */}
+        {/* EJERCICIO 2 - Composición, Estado y Eventos */}
         {/* ============================================ */}
-        
-        <section className="exercise-section" id="ejercicio1">
-          <div className="exercise-header">
-            <h2>Ejercicio 1 — Componente con expresiones dinámicas</h2>
-            <span className="exercise-badge">Perfil</span>
-          </div>
+        <Acordeon 
+          titulo="🎯 Ejercicio 2 — Composición, Estado y Eventos" 
+          icono="⚡"
+          color="#e74c3c"
+          inicialmenteExpandido={false}
+        >
           <div className="exercise-content">
-            <Perfil />
-          </div>
-        </section>
+            <h3>📱 Demo de Componentes Interactivos</h3>
 
-        <section className="exercise-section" id="ejercicio2">
-          <div className="exercise-header">
-            <h2>Ejercicio 2 — Lógica previa al return</h2>
-            <span className="exercise-badge">Clima</span>
-          </div>
-          <div className="exercise-content">
-            <Clima />
-          </div>
-        </section>
+            {/* Botones de acción */}
+            <div style={{
+              marginBottom: '25px',
+              padding: '20px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '12px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ marginTop: 0, marginBottom: '15px' }}>
+                🎯 Botones de Acción - Demostración de variantes
+              </h4>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '12px',
+                alignItems: 'center'
+              }}>
+                <BotonAccion 
+                  texto="Primario" 
+                  variante="primario" 
+                  onClick={() => alert('Botón primario clickeado')}
+                />
+                <BotonAccion 
+                  texto="Secundario" 
+                  variante="secundario" 
+                  onClick={() => alert('Botón secundario clickeado')}
+                />
+                <BotonAccion 
+                  texto="Peligro" 
+                  variante="peligro" 
+                  onClick={() => alert('Botón peligro clickeado')}
+                />
+                <BotonAccion 
+                  texto="Deshabilitado" 
+                  variante="primario" 
+                  disabled={true}
+                  onClick={() => {}}
+                />
+                <BotonAccion 
+                  texto="Con Alerta" 
+                  variante="secundario" 
+                  onClick={mostrarAlerta}
+                />
+              </div>
+              {mostrarAlertaBoton && (
+                <div style={{ marginTop: '15px' }}>
+                  <Alerta tipo="exito" titulo="¡Botón clickeado!">
+                    Has hecho clic en el botón correctamente.
+                  </Alerta>
+                </div>
+              )}
+            </div>
 
-        <section className="exercise-section" id="ejercicio3">
-          <div className="exercise-header">
-            <h2>Ejercicio 3 — Renderizado condicional con operadores</h2>
-            <span className="exercise-badge">Estado Pedido</span>
-          </div>
-          <div className="exercise-content">
-            <EstadoPedido />
-          </div>
-        </section>
+            {/* Modal */}
+            <div style={{
+              marginBottom: '25px',
+              padding: '20px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '12px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ marginTop: 0, marginBottom: '15px' }}>
+                📦 Modal - Componente con composición
+              </h4>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: '12px'
+              }}>
+                <BotonAccion 
+                  texto="📂 Abrir Modal" 
+                  variante="primario" 
+                  onClick={abrirModal}
+                />
+                <p style={{ 
+                  margin: 0, 
+                  fontSize: '0.9rem', 
+                  color: '#7f8c8d'
+                }}>
+                  Estado del modal: {modalAbierto ? '🔵 Abierto' : '⚪ Cerrado'}
+                </p>
+              </div>
 
-        <section className="exercise-section" id="ejercicio4">
-          <div className="exercise-header">
-            <h2>Ejercicio 4 — Renderizado condicional con early return</h2>
-            <span className="exercise-badge">Bienvenida</span>
-          </div>
-          <div className="exercise-content">
-            <h4>Usuario Administrador:</h4>
-            <MensajeBienvenida usuario={usuarioAdmin} />
-            <h4>Usuario Normal:</h4>
-            <MensajeBienvenida usuario={usuarioNormal} />
-            <h4>Usuario no autenticado (null):</h4>
-            <MensajeBienvenida usuario={null} />
-          </div>
-        </section>
+              <Modal 
+                titulo="📋 Información del Sistema"
+                abierto={modalAbierto}
+                onClose={cerrarModal}
+              >
+                <div>
+                  <p style={{ lineHeight: '1.6', color: '#2c3e50' }}>
+                    Este es un modal interactivo creado con composición de componentes en React.
+                  </p>
+                  <p style={{ lineHeight: '1.6', color: '#2c3e50' }}>
+                    El modal utiliza <strong>children</strong> para renderizar contenido dinámico
+                    y recibe <strong>props</strong> para controlar su visibilidad.
+                  </p>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginTop: '20px',
+                    paddingTop: '20px',
+                    borderTop: '1px solid #e9ecef'
+                  }}>
+                    <BotonAccion 
+                      texto="❌ Cerrar Modal" 
+                      variante="secundario" 
+                      onClick={cerrarModal}
+                    />
+                  </div>
+                </div>
+              </Modal>
+            </div>
 
-        <section className="exercise-section" id="ejercicio5">
-          <div className="exercise-header">
-            <h2>Ejercicio 5 — Renderizado de lista simple</h2>
-            <span className="exercise-badge">Habilidades</span>
-          </div>
-          <div className="exercise-content">
-            <ListaHabilidades />
-          </div>
-        </section>
-
-        <section className="exercise-section" id="ejercicio6">
-          <div className="exercise-header">
-            <h2>Ejercicio 6 — Renderizado de lista con objetos</h2>
-            <span className="exercise-badge">Productos</span>
-          </div>
-          <div className="exercise-content">
-            <ListaProductos />
-          </div>
-        </section>
-
-        <section className="exercise-section" id="ejercicio7">
-          <div className="exercise-header">
-            <h2>Ejercicio 7 — Combinación de filter y map</h2>
-            <span className="exercise-badge">Tareas</span>
-          </div>
-          <div className="exercise-content">
-            <ListaTareas />
-          </div>
-        </section>
-
-        <section className="exercise-section" id="ejercicio8">
-          <div className="exercise-header">
-            <h2>Ejercicio 8 — Componente reutilizable para tarjetas</h2>
-            <span className="exercise-badge">Tarjetas</span>
-          </div>
-          <div className="exercise-content">
-            <div className="tarjetas-grid">
-              {tarjetasData.map((datos, index) => (
-                <Tarjeta key={index} {...datos} />
-              ))}
+            {/* Contador */}
+            <div style={{
+              padding: '20px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '12px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ marginTop: 0, marginBottom: '15px' }}>
+                🔢 Contador Interactivo
+              </h4>
+              <Contador />
             </div>
           </div>
-        </section>
+        </Acordeon>
 
-        <section className="exercise-section" id="ejercicio9">
-          <div className="exercise-header">
-            <h2>Ejercicio 9 — Componente con Fragment y múltiples secciones</h2>
-            <span className="exercise-badge">Dashboard</span>
-          </div>
+        {/* ============================================ */}
+        {/* EJERCICIO 3 - Lista Dinámica con Inmutabilidad */}
+        {/* ============================================ */}
+        <Acordeon 
+          titulo="📇 Ejercicio 3 — Lista Dinámica con Inmutabilidad" 
+          icono="🔍"
+          color="#9b59b6"
+          inicialmenteExpandido={false}
+        >
           <div className="exercise-content">
-            <Dashboard />
+            <ListaContactos />
           </div>
-        </section>
+        </Acordeon>
 
+        {/* ============================================ */}
+        {/* EJERCICIO 4 - Formulario Controlado con Validación */}
+        {/* ============================================ */}
+        <Acordeon 
+          titulo="📝 Ejercicio 4 — Formulario Controlado con Validación" 
+          icono="✅"
+          color="#2ecc71"
+          inicialmenteExpandido={false}
+        >
+          <div className="exercise-content">
+            <FormularioEvento />
+          </div>
+        </Acordeon>
+
+        {/* ============================================ */}
+        {/* EJERCICIOS ANTERIORES (1-9 del primer bloque) */}
+        {/* ============================================ */}
+        <Acordeon 
+          titulo="📚 Ejercicios Anteriores (1-9) — Fundamentos de React" 
+          icono="📖"
+          color="#95a5a6"
+          inicialmenteExpandido={false}
+        >
+          <div className="exercise-content">
+            {/* Ejercicio 1 - Perfil */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 1 — Componente con expresiones dinámicas</h4>
+              <Perfil />
+            </div>
+
+            {/* Ejercicio 2 - Clima */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 2 — Lógica previa al return</h4>
+              <Clima />
+            </div>
+
+            {/* Ejercicio 3 - Estado Pedido */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 3 — Renderizado condicional con operadores</h4>
+              <EstadoPedido />
+              <div className="exercise-note">
+                <small>💡 Cambia el valor de 'estado' en el componente para probar diferentes casos</small>
+              </div>
+            </div>
+
+            {/* Ejercicio 4 - Mensaje Bienvenida */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 4 — Renderizado condicional con early return</h4>
+              <h5>Usuario Administrador:</h5>
+              <MensajeBienvenida usuario={usuarioAdmin} />
+              <h5>Usuario Normal:</h5>
+              <MensajeBienvenida usuario={usuarioNormal} />
+              <h5>Usuario no autenticado (null):</h5>
+              <MensajeBienvenida usuario={null} />
+            </div>
+
+            {/* Ejercicio 5 - Lista Habilidades */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 5 — Renderizado de lista simple</h4>
+              <ListaHabilidades />
+            </div>
+
+            {/* Ejercicio 6 - Lista Productos */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 6 — Renderizado de lista con objetos</h4>
+              <ListaProductos />
+            </div>
+
+            {/* Ejercicio 7 - Lista Tareas */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 7 — Combinación de filter y map</h4>
+              <ListaTareas />
+            </div>
+
+            {/* Ejercicio 8 - Tarjetas */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 8 — Componente reutilizable para tarjetas</h4>
+              <div className="tarjetas-grid">
+                {tarjetasData.map((datos, index) => (
+                  <Tarjeta key={index} {...datos} />
+                ))}
+              </div>
+            </div>
+
+            {/* Ejercicio 9 - Dashboard */}
+            <div className="sub-exercise">
+              <h4>Ejercicio 9 — Componente con Fragment y múltiples secciones</h4>
+              <Dashboard />
+            </div>
+          </div>
+        </Acordeon>
+
+        {/* ============================================ */}
+        {/* FOOTER */}
+        {/* ============================================ */}
         <footer className="App-footer">
-          <p>🎯 Total de ejercicios completados: 11 (incluyendo nuevos componentes)</p>
-          <p className="footer-details">
-            <span>React JS</span>
-            <span>•</span>
-            <span>Componentes Funcionales</span>
-            <span>•</span>
-            <span>Props y Children</span>
-            <span>•</span>
-            <span>useState</span>
-            <span>•</span>
-            <span>Renderizado Condicional</span>
-          </p>
-          <p className="footer-small">
-            Desarrollado como parte del aprendizaje de React JS
-          </p>
+          <div className="footer-content">
+            <div className="footer-stats">
+              <div className="stat-item">
+                <span className="stat-number">5</span>
+                <span className="stat-label">Ejercicios Principales</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">15+</span>
+                <span className="stat-label">Componentes</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">10</span>
+                <span className="stat-label">Ejercicios Anteriores</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">∞</span>
+                <span className="stat-label">Posibilidades</span>
+              </div>
+            </div>
+            
+            <div className="footer-tech">
+              <span>⚛️ React 18</span>
+              <span>•</span>
+              <span>🎣 Hooks</span>
+              <span>•</span>
+              <span>📦 Componentes</span>
+              <span>•</span>
+              <span>🎨 CSS-in-JS</span>
+            </div>
+            
+            <p className="footer-copy">
+              Desarrollado como parte del aprendizaje de React JS • Todos los ejercicios completados
+            </p>
+          </div>
         </footer>
       </main>
     </div>
